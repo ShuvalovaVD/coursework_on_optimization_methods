@@ -55,7 +55,8 @@ while True:
     x_stat = ((x_2 + x_1) / Decimal("2")) - (a_1 / (Decimal("2") * a_2))  # !!! здесь x_2 + x_1, а не x_2 - x_1
     f_x_stat = f(x_stat)
     if abs(x_stat - x_min) < eps:
-        print(x_stat.quantize(Decimal("1." + "0" * eps_signs)), f_x_stat.quantize(Decimal("1." + "0" * eps_signs)))
+        print("x_min =", x_stat.quantize(Decimal("1." + "0" * eps_signs)), "f_min =",
+              f_x_stat.quantize(Decimal("1." + "0" * eps_signs)))
         break
     if f_x_stat < f_min:
         x_1 = x_stat
