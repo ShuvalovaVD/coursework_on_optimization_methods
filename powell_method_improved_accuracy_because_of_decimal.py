@@ -1,21 +1,48 @@
 # Метод Пауэлла
-# ЗДЕСЬ ТОЧНОСТЬ МИНИМАЛЬНАЯ EPS = 10^-13 из-за Decimal
+# ЗДЕСЬ ТОЧНОСТЬ МИНИМАЛЬНАЯ EPS = 10^-13 благодаря Decimal (если бы был float, было бы 10^-6)
+
 import math
 import decimal
 from decimal import Decimal
-def f(x):  # входная функция № 1
+
+# 3 задачи на выбор
+def f_1(x):  # входная функция № 1
     return ((x + Decimal("1")) * (x + Decimal("4")) ** Decimal("3"))
-# def f(x):  # входная функция № 2
-#     return (x ** Decimal("2") - Decimal(str(math.sin(x))))
-# def f(x):  # входная функция № 3
-#     return (x ** Decimal("4") + Decimal("8") * x ** Decimal("3") - Decimal("6") * x ** Decimal("2")
-#             - Decimal("72") * x + Decimal("90"))
+def f_2(x):  # входная функция № 2
+    return (x ** Decimal("2") - Decimal(str(math.sin(x))))
+def f_3(x):  # входная функция № 3
+    return (x ** Decimal("4") + Decimal("8") * x ** Decimal("3") - Decimal("6") * x ** Decimal("2")
+            - Decimal("72") * x + Decimal("90"))
+a_1, b_1 = Decimal("-2"), Decimal("-1")  # входные данные № 1
+a_2, b_2 = Decimal("0"), Decimal(str(math.pi)) / Decimal("2")  # входные данные № 2
+a_3, b_3 = Decimal("1.5"), Decimal("2")  # входная функция № 3
 
+# пользователь выбирает задачу
+print("Выберите задачу, которая будет решаться методом Пауэлла:")
+print("№1: f(x) = (x + 1) * (x + 4) ^ 3; [-2; -1]")
+print("№2: f(x) = x ^ 2 - sin(x); [0; pi/2]")
+print("№3: f(x) = x ^ 4 + 8 * x ^ 3 - 6 * x ^ 2 - 72 * x + 90; [1,5; 2]")
+while True:
+    try:
+        number_choice = int(input("Введите число 1, 2 или 3: "))
+    except ValueError:
+        print("Вы ввели не число - введите ещё раз")
+    else:
+        if number_choice not in (1, 2, 3):
+            print("Вы ввели число, отличное от 1, 2 или 3 - введите ещё раз")
+        else:
+            if number_choice == 1:
+                f, a, b = f_1, a_1, b_1
+                print("Решаемая задача: f(x) = (x + 1) * (x + 4) ^ 3; [-2; -1]")
+            elif number_choice == 2:
+                f, a, b = f_2, a_2, b_2
+                print("Решаемая задача: f(x) = x ^ 2 - sin(x); [0; pi/2]")
+            else:
+                f, a, b = f_3, a_3, b_3
+                print("Решаемая задача: f(x) = x ^ 4 + 8 * x ^ 3 - 6 * x ^ 2 - 72 * x + 90; [1,5; 2]")
+            break
 
-a, b = Decimal("-2"), Decimal("-1")  # входные данные № 1
-# a, b = Decimal("0"), Decimal(str(math.pi)) / Decimal("2")  # входные данные № 2
-# a, b = Decimal("1.5"), Decimal("2")  # входная функция № 3
-
+# пользователь вводит точность
 print("\nВведите точность eps от 10^-13 до 10^-1 в формате [0.0...0[ненулевое число]], например: eps = 0.001")
 print("Для точности eps < 10^-13 решение задачи невозможно в силу ограниченных вычислительных возможностей Python.")
 while True:
@@ -32,7 +59,9 @@ while True:
         else:
             break
 eps_signs = len(eps_str) - 2  # столько знаков после точки надо будет оставлять при выводе ответов
+print()
 
+# решение задачи методом Пауэлла
 x_1, h = a, eps  # задаём сами
 while True:
     x_2 = x_1 + h
