@@ -82,7 +82,7 @@ adjacency_matrix_3 = [
 print("Выберите задачу коммивояжёра, которая будет решаться полным перебором:")
 print("Задача №1: 5 городов, симметричная матрица смежности между городами:")
 table_1 = prettytable.PrettyTable()
-table_1.field_names = ["City", "1", "2", "3", "4", "5"]
+table_1.field_names = ["Город", "1", "2", "3", "4", "5"]
 for i in range(n_1):
     row = [f"{i + 1}"]
     for j in range(n_1):
@@ -91,7 +91,7 @@ for i in range(n_1):
 print(table_1)
 print("Задача №2: 5 городов, асимметричная матрица смежности между городами:")
 table_2 = prettytable.PrettyTable()
-table_2.field_names = ["City", "1", "2", "3", "4", "5"]
+table_2.field_names = ["Город", "1", "2", "3", "4", "5"]
 for i in range(n_2):
     row = [f"{i + 1}"]
     for j in range(n_2):
@@ -102,7 +102,7 @@ print("Задача №3: 10 городов,",
       "не для всех городов существует хотя бы 1 путь с возвратом в этот город,",
       "асимметричная матрица смежности между городами:", sep="\n")
 table_3 = prettytable.PrettyTable()
-table_3.field_names = ["City", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+table_3.field_names = ["Город", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 for i in range(n_3):
     row = [f"{i + 1}"]
     for j in range(n_3):
