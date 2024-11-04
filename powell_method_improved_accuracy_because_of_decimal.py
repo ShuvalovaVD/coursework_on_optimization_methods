@@ -6,6 +6,7 @@
 import math
 import decimal
 from decimal import Decimal
+import prettytable
 
 # 3 задачи на выбор
 def f_1(x):  # входная функция № 1
@@ -20,10 +21,10 @@ a_2, b_2 = Decimal("0"), Decimal(str(math.pi)) / Decimal("2")  # входные 
 a_3, b_3 = Decimal("1.5"), Decimal("2")  # входная функция № 3
 
 # пользователь выбирает задачу
-print("Выберите функцию и отрезок, для которых будет искаться т. min и min методом Пауэлла:")
-print("№1: f(x) = (x + 1) * (x + 4) ^ 3; [-2; -1]")
-print("№2: f(x) = x ^ 2 - sin(x); [0; pi/2]")
-print("№3: f(x) = x ^ 4 + 8 * x ^ 3 - 6 * x ^ 2 - 72 * x + 90; [1,5; 2]")
+print("Выберите функцию и отрезок, для которых будет искаться т. min и min в ней методом Пауэлла:")
+print("Задача №1: f(x) = (x + 1) * (x + 4) ^ 3; [-2; -1]")
+print("Задача №2: f(x) = x ^ 2 - sin(x); [0; pi/2]")
+print("Задача №3: f(x) = x ^ 4 + 8 * x ^ 3 - 6 * x ^ 2 - 72 * x + 90; [1,5; 2]")
 while True:
     try:
         number_choice = int(input("Введите число 1, 2 или 3: "))
@@ -65,7 +66,12 @@ print()
 
 # решение задачи методом Пауэлла
 x_1, h = a, eps  # задаём сами
+iter = 0
+table = prettytable.PrettyTable()
+table.field_names = ["n", "x1", "x2", "x3", "f(x1)", "f(x2)", "f(x3)", "a0", "a1", "a2", "x_min", "f(x_min)",
+                     "x*", "f(x*)", "eps_n"]
 while True:
+    iter += 1
     x_2 = x_1 + h
     f_x_1, f_x_2 = f(x_1), f(x_2)
     if f(x_1) > f(x_2):
@@ -85,11 +91,20 @@ while True:
     a_2 = (Decimal("1") / (x_3 - x_2)) * (((f_x_3 - f_x_1) / (x_3 - x_1)) - ((f_x_2 - f_x_1) / (x_2 - x_1)))
     x_stat = ((x_2 + x_1) / Decimal("2")) - (a_1 / (Decimal("2") * a_2))  # !!! здесь x_2 + x_1, а не x_2 - x_1
     f_x_stat = f(x_stat)
-    if abs(x_stat - x_min) < eps:
-        print("x_min =", x_stat.quantize(Decimal("1." + "0" * eps_signs)), "f_min =",
-              f_x_stat.quantize(Decimal("1." + "0" * eps_signs)))
+    eps_n = abs(x_stat - x_min)
+    table.add_row([iter, f"{x_1:.{eps_signs}f}", f"{x_2:.{eps_signs}f}", f"{x_3:.{eps_signs}f}",
+                   f"{f_x_1:.{eps_signs}f}", f"{f_x_2:.{eps_signs}f}", f"{f_x_3:.{eps_signs}f}", f"{a_0:.{eps_signs}f}",
+                   f"{a_1:.{eps_signs}f}", f"{a_2:.{eps_signs}f}", f"{x_min:.{eps_signs}f}", f"{f_min:.{eps_signs}f}",
+                   f"{x_stat:.{eps_signs}f}", f"{f_x_stat:.{eps_signs}f}", f"{eps_n:.{eps_signs}f}"])
+    if eps_n < eps:
         break
     if f_x_stat < f_min:
         x_1 = x_stat
     else:
         x_1 = x_min
+
+# вывод ответа
+print("Полная таблица расчётов:")
+print(table)
+x_min_answer, f_min_answer = x_stat, f_x_stat
+print(f"\nИтог: точка минимума x_min = {x_min_answer:.{eps_signs}f} и минимум f_min = {f_min_answer:.{eps_signs}f}")
