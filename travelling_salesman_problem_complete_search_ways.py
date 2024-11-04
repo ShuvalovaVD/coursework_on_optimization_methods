@@ -166,3 +166,4 @@ else:
     print("Оптимальные пути:")
     for way_min in ways_min:
         print(*way_min, sep=" -> ")
+input()  # чтобы консоль не закрылась
