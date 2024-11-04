@@ -152,3 +152,4 @@ print(f"Вес минимального остовного дерева = {total
 print("Рёбра графа, входящие в остов:")
 print(table)
 draw_graph_answer(n, m, edge_list, edges_min)
+input()  # чтобы консоль не закрылась
