@@ -108,3 +108,4 @@ print("Полная таблица расчётов:")
 print(table)
 x_min_answer, f_min_answer = x_stat, f_x_stat
 print(f"\nИтог: точка минимума x_min = {x_min_answer:.{eps_signs}f} и минимум f_min = {f_min_answer:.{eps_signs}f}")
+input()  # чтобы консоль не закрылась
