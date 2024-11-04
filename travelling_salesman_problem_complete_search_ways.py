@@ -1,16 +1,14 @@
 """
 Решение задачи коммивояжёра полным перебором - это точный метод, который применяется для небольшого количества городов.
 Классическая формулировка задачи коммивояжёра: найти самый короткий маршрут, проходящий через все города по 1 разу с
-возвратом в город, с которого начали (то есть в стартовом городе побываем 2 раза), если таких несколько - любой из них.
+возвратом в город, с которого начали (то есть в стартовом городе побываем 2 раза), если таких несколько - вывести все.
 """
 
 import prettytable
 
 
 def complete_search_ways(start_v, cur_v, total_dist, total_v, used_v):
-    global n, adjacency_matrix
-    if cur_v == start_v:
-        print("Все возможные пути с возвратом в стартовую вершину:")
+    global n, adjacency_matrix, table
     total_v += 1
     used_v[cur_v] = total_v
     if total_v == n:
@@ -20,11 +18,11 @@ def complete_search_ways(start_v, cur_v, total_dist, total_v, used_v):
         for ind in range(n):
             way[used_v[ind] - 1] = ind + 1
         way[n] = start_v + 1
-        print(f"расстояние = {total_dist + adjacency_matrix[cur_v][start_v]}; путь:", end=" ")
-        print(*way, sep=" -> ")
+        way_str = " -> ".join([str(elem) for elem in way])
+        table.add_row([total_dist + adjacency_matrix[cur_v][start_v], way_str])
         total_v -= 1
         used_v[cur_v] = 0
-        return (total_dist + adjacency_matrix[cur_v][start_v]), [start_v, cur_v]
+        return ((total_dist + adjacency_matrix[cur_v][start_v]), [[start_v, cur_v]])
     vars = []
     for v in range(n):
         if (adjacency_matrix[cur_v][v] != None) and (used_v[v] == 0):
@@ -35,12 +33,16 @@ def complete_search_ways(start_v, cur_v, total_dist, total_v, used_v):
     used_v[cur_v] = 0
     if len(vars) == 0:
         return None
-    dist_min, way_min = vars[0][0], vars[0][1]
-    for dist, way in vars:
+    dist_min, ways_min = 100000000000000000000000000000000000000, None
+    for dist, ways in vars:
         if dist < dist_min:
             dist_min = dist
-            way_min = way
-    return dist_min, way_min + [cur_v]
+            ways_min = ways
+        elif dist == dist_min:
+            ways_min.extend(ways)
+    for i in range(len(ways_min)):
+        ways_min[i].append(cur_v)
+    return (dist_min, ways_min)
 
 # 3 задачи на выбор
 # граф №1 - симметричный из 5 вершин
@@ -148,11 +150,19 @@ while True:
 print()
 
 # решение задачи коммивояжёра полным перебором
+table = prettytable.PrettyTable()
+table.field_names = ["Расстояние", "Путь"]
 search_result = complete_search_ways(start_v, start_v, 0, 0, [0] * n)
 if search_result == None:
     print("Не существует ни одного подходящего пути")
 else:
-    dist_min, way_min = search_result
-    way_min = [elem + 1 for elem in way_min][::-1]  # так как был возвращён обратный путь
-    print(f"\nминимальное расстояние = {dist_min}\nоптимальный путь: ", end="")
-    print(*way_min, sep=" -> ")
+    print("Все возможные пути с возвратом в стартовую вершину:")
+    print(table)
+    print()
+    dist_min, ways_min = search_result
+    for i in range(len(ways_min)):
+        ways_min[i] = [elem + 1 for elem in ways_min[i]][::-1]  # так как был возвращён обратный путь
+    print(f"Минимальное расстояние = {dist_min}")
+    print("Оптимальные пути:")
+    for way_min in ways_min:
+        print(*way_min, sep=" -> ")
