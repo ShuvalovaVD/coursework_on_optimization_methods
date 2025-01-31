@@ -1,7 +1,6 @@
 """Метод Пауэлла"""
 
 # импортируем необходимые библиотеки
-
 import math, numpy as np, matplotlib.pyplot as plt
 from decimal import Decimal
 from prettytable import PrettyTable
