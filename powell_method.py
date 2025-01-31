@@ -128,6 +128,7 @@ def powell_method(f, a, b, eps, eps_signs):  # метод Пауэлла
     table = PrettyTable()
     table.field_names = ["n", "x1", "x2", "x3", "f(x1)", "f(x2)", "f(x3)", "a0", "a1", "a2", "x_min", "f(x_min)",
                          "x*", "f(x*)", "eps_n"]
+
     while True:
         iter += 1
         x_2 = x_1 + h
@@ -138,16 +139,16 @@ def powell_method(f, a, b, eps, eps_signs):  # метод Пауэлла
             x_3 = x_1 - h
         f_x_3 = f(x_3)
         f_min = min(f_x_1, f_x_2, f_x_3)
-        if f_x_1 == f_min:
+        if f_min == f_x_1:
             x_min = x_1
-        elif f_x_2 == f_min:
+        elif f_min == f_x_2:
             x_min = x_2
         else:
             x_min = x_3
         a_0 = f_x_1
         a_1 = (f_x_2 - f_x_1) / (x_2 - x_1)
         a_2 = (Decimal("1") / (x_3 - x_2)) * (((f_x_3 - f_x_1) / (x_3 - x_1)) - ((f_x_2 - f_x_1) / (x_2 - x_1)))
-        x_stat = ((x_2 + x_1) / Decimal("2")) - (a_1 / (Decimal("2") * a_2))  # !!! здесь x_2 + x_1, а не x_2 - x_1
+        x_stat = ((x_2 + x_1) / Decimal("2")) - (a_1 / (Decimal("2") * a_2))
         f_x_stat = f(x_stat)
         eps_n = abs(x_stat - x_min)
         table.add_row([iter, f"{x_1:.{eps_signs}f}", f"{x_2:.{eps_signs}f}", f"{x_3:.{eps_signs}f}",
