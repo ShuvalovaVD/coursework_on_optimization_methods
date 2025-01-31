@@ -166,7 +166,7 @@ def powell_method(f, a, b, eps, eps_signs):  # метод Пауэлла
     return x_stat, f_x_stat, table
 
 
-def main():
+def main():  # главная функция программы
     # получаем данные от пользователя
     f = get_function()
     a, b = get_interval(f)
