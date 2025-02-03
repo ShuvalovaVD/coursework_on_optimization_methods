@@ -61,7 +61,7 @@ def get_function():  # пользователь выбирает функцию
         try:
             number_choice = int(input("Введите число 1, 2 или 3: "))
         except ValueError:
-            print("Вы ввели не число - введите ещё раз")
+            print("Вы ввели не целое число - введите ещё раз")
         else:
             if number_choice not in (1, 2, 3):
                 print("Вы ввели число, отличное от 1, 2 или 3 - введите ещё раз")
