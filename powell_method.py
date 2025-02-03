@@ -114,7 +114,7 @@ def get_accuracy():  # пользователь вводит точность
         else:
             if not (Decimal("0.0000000000001") <= eps <= Decimal("0.1")):
                 print("Вы ввели число вне диапазона [10^-13; 10^-1] - введите ещё раз")
-            elif eps_str.count('0') != (len(eps_str) - 2):
+            elif eps_str.count('0') != (len(eps_str) - 2) or eps_str[-1] == "0":
                 print("Вы ввели число не в формате [0.0...0[ненулевое число]] - введите ещё раз")
             else:
                 break
